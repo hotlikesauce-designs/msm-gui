@@ -26,7 +26,29 @@ class ActorsController < ApplicationController
     matching_records = Actor.where({ :id => the_id})
     the_actor = matching_records.at(0)
     the_actor.destroy
-    redirect_to("/movies")
+    redirect_to("/actors")
+  end
+
+  def update
+    #  Parameters: {"the_title"=>"1", "the_year"=>"2023", "the_duration"=>"3", "the_description"=>"4", "the_image"=>"5", "the_director_id"=>"6", "an_id"=>"1"}
+
+    # get the ID out of params
+    a_id = params.fetch("an_id")
+    
+    # look up the existing record
+    matching_records = Actor.where({:id => a_id})
+    a = matching_records.at(0)
+    
+    # overwrite each column with user values
+    a.name = params.fetch("the_name")
+    a.dob = params.fetch("the_dob")
+    a.bio = params.fetch("the_bio")
+    a.image = params.fetch("the_image")
+    
+    # save and redirect 
+    a.save
+    redirect_to("/actors/#{a.id}")
+    
   end
   
   
